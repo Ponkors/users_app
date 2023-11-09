@@ -1,30 +1,25 @@
-part of 'main_bloc.dart';
+import 'package:core/core.dart';
+import 'package:domain/domain.dart';
 
-class MainState {
-  final bool isLoading;
-  final List<UserModel> listOfUsers;
-  final bool? haveInternetConnection;
-  final Object? exception;
+abstract class MainState extends Equatable {
+  final List<UserEntity>? users;
+  final DioError? error;
 
-  MainState({
-    this.isLoading = true,
-    this.listOfUsers = const [],
-    this.haveInternetConnection,
-    this.exception,
-  });
+  const MainState({this.users, this.error});
 
-  MainState copyWith({
-    bool? isLoading,
-    List<UserModel>? listOfUsers,
-    bool? haveInternetConnection,
-    Object? exception,
-  }) {
-    return MainState(
-      isLoading: isLoading ?? this.isLoading,
-      listOfUsers: listOfUsers ?? this.listOfUsers,
-      haveInternetConnection:
-          haveInternetConnection ?? this.haveInternetConnection,
-      exception: exception ?? this.exception,
-    );
-  }
+  @override
+  List<Object> get props => [users!, error!];
+}
+
+class UsersLoadingFromNetwork extends MainState {
+  const UsersLoadingFromNetwork();
+}
+
+class UsersLoadingFromNetworkDone extends MainState {
+  const UsersLoadingFromNetworkDone(List<UserEntity> users)
+      : super(users: users);
+}
+
+class UsersLoadingFromNetworkError extends MainState {
+  const UsersLoadingFromNetworkError(DioError error) : super(error: error);
 }

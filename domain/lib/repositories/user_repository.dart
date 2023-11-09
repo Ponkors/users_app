@@ -1,5 +1,6 @@
-import 'package:domain/domain.dart';
+import 'package:core/core.dart';
+import 'package:data/data.dart';
 
 abstract class UsersRepository {
-  Future<List<UserModel>> fetchAllUsers();
+  Future<DataState<List<UserModel>>> getUsers();
 }
